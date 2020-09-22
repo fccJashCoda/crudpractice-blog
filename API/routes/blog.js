@@ -34,6 +34,10 @@ let mockdb = [
 // @desc return a success response
 // @acces public
 router.get('/test', auth, controller.test_route);
+// @route POST /test
+// @desc return a success response
+// @acces public
+router.post('/test', auth, controller.post_test_route);
 
 // @route GET /articles
 // @desc return all published articles

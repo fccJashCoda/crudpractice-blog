@@ -1,16 +1,42 @@
+const Article = require('../models/article');
+
 // @route GET /test
 // @desc return a success response
 // @acces public
-exports.test_route = (req, res, next) => {
-  res.status(400).json({ msg: 'success' });
+exports.test_route = async (req, res, next) => {
+  try {
+    const payload = await Article.find();
+    console.log(typeof payload);
+    res.status(200).json({ msg: 'success', payload });
+  } catch (error) {
+    res.status(400).json({ msg: 'failure' });
+  }
+};
+
+// @route POST /test
+// @desc return a success response
+// @acces public
+exports.post_test_route = (req, res, next) => {
+  const { author, title, body } = req.body;
+  const article = new Article({
+    author,
+    title,
+    body,
+  });
+  article.save(() => console.log('article saved'));
+  res.status(200).json({ msg: 'success' });
 };
 
 // @route GET /articles
 // @desc return all published articles
 // @acces public
-exports.get_articles = (req, res, next) => {
-  const payload = mockdb;
-  res.json({ msg: 'success', payload });
+exports.get_articles = async (req, res, next) => {
+  try {
+    const payload = await Article.find();
+    res.status(200).json({ msg: 'success', payload });
+  } catch (error) {
+    res.status(400).json({ msg: 'failure' });
+  }
 };
 
 // @route POST /article
