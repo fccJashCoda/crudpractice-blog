@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/apiv1controller');
+const controller = require('../controllers/apicontroller');
 const { auth } = require('../auth/auth');
 
 let mockdb = [

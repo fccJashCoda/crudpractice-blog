@@ -1,12 +1,16 @@
 const express = require('express');
-const server = express();
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+require('dotenv').config();
 
+const server = express();
 const port = process.env.PORT || '7000';
 const router = require('./routes/router');
 
 // middleware
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
+server.use(morgan('short'));
 // server.use((req, res, next) => {
 //   if (req.query.key) {
 //     console.log('pasta');
@@ -16,11 +20,19 @@ server.use(express.json());
 // });
 
 // router
-server.use('/v1', router.v1);
+server.use('/blog', router.blog);
 server.use((req, res) => {
   res.json({ msg: '404' });
 });
 
-server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+mongoose
+  .connect(process.env.MONGOURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() =>
+    server.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    })
+  )
+  .catch((err) => console.log(err));
