@@ -4,12 +4,15 @@ const Article = require('../models/article');
 // @desc return a success response
 // @acces public
 exports.test_route = async (req, res, next) => {
+  let payload;
   try {
-    const payload = await Article.find();
+    payload = await Article.find();
+    if (!payload.length) throw new Error('nothing found');
     console.log(typeof payload);
     res.status(200).json({ msg: 'success', payload });
   } catch (error) {
-    res.status(400).json({ msg: 'failure' });
+    payload = error;
+    res.status(400).json({ msg: 'failure', payload });
   }
 };
 
@@ -31,11 +34,15 @@ exports.post_test_route = (req, res, next) => {
 // @desc return all published articles
 // @acces public
 exports.get_articles = async (req, res, next) => {
+  let payload;
   try {
-    const payload = await Article.find();
+    payload = await Article.find({ author: 'bob' });
+    if (!payload.length) throw new Error('nothing found');
     res.status(200).json({ msg: 'success', payload });
   } catch (error) {
-    res.status(400).json({ msg: 'failure' });
+    console.log(error);
+    payload = error.message;
+    res.status(400).json({ msg: 'failure', payload });
   }
 };
 
@@ -43,9 +50,24 @@ exports.get_articles = async (req, res, next) => {
 // @desc post a new article
 // @acces private
 exports.post_article = (req, res, next) => {
-  mockdb.push(req.body);
-  const payload = mockdb;
-  res.json({ msg: 'message posted', payload });
+  // mockdb.push(req.body);
+  // const payload = mockdb;
+  let payload;
+  try {
+    const { author, title, body } = req.body;
+    if (!author || !title || !body) throw new Error('Missing data');
+    const article = new Article({
+      author,
+      title,
+      body,
+    });
+    article.save();
+    payload = 'message saved';
+    res.status(200).json({ msg: 'success', payload });
+  } catch (error) {
+    payload = error.message;
+    res.status(404).json({ msg: 'failure', payload });
+  }
 };
 
 // @route PUT /article/:id
