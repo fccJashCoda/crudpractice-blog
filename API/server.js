@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const cors = require('cors');
 require('dotenv').config();
 
 const server = express();
@@ -8,6 +9,7 @@ const port = process.env.PORT || '7000';
 const router = require('./routes/router');
 
 // middleware
+server.use(cors());
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
 server.use(morgan('short'));

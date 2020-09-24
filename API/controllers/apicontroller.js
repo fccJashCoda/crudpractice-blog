@@ -36,7 +36,7 @@ exports.post_test_route = (req, res, next) => {
 exports.get_articles = async (req, res, next) => {
   let payload;
   try {
-    payload = await Article.find({ author: 'bob' });
+    payload = await Article.find();
     if (!payload.length) throw new Error('nothing found');
     res.status(200).json({ msg: 'success', payload });
   } catch (error) {

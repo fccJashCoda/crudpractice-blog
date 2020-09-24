@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const Article = (props) => {
+const ArticleCard = (props) => {
+  console.log(props.location);
   const data = props.data || props.location.data;
   if (data) {
     return (
@@ -17,4 +18,4 @@ const Article = (props) => {
   return <h3>data.title</h3>;
 };
 
-export default Article;
+export default ArticleCard;
