@@ -4,6 +4,7 @@ import './App.css';
 
 import Index from './layout/Index';
 import ArticleCard from './components/ArticleCard';
+import Article from './components/Article';
 
 function App() {
   return (
@@ -11,9 +12,13 @@ function App() {
       <>
         <Router>
           <Switch>
-            <Route exact path="/articles/:page" component={Index} />
+            <Route
+              exact
+              path={['/', '/articles/', '/articles/:page']}
+              component={Index}
+            />
             <Route exact path="/test" component={ArticleCard} />
-            <Route exact path="/:page" component={ArticleCard} />
+            <Route exact path="/:page" component={Article} />
           </Switch>
         </Router>
       </>

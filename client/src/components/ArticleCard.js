@@ -1,6 +1,8 @@
 import React from 'react';
+import { useParams } from 'react-router';
 
 const ArticleCard = (props) => {
+  console.log(useParams);
   console.log(props.location);
   const data = props.data || props.location.data;
   if (data) {

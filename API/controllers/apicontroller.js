@@ -2,7 +2,7 @@ const Article = require('../models/article');
 
 // @route GET /test
 // @desc return a success response
-// @acces public
+// @access public
 exports.test_route = async (req, res, next) => {
   let payload;
   try {
@@ -18,7 +18,7 @@ exports.test_route = async (req, res, next) => {
 
 // @route POST /test
 // @desc return a success response
-// @acces public
+// @access public
 exports.post_test_route = (req, res, next) => {
   const { author, title, body } = req.body;
   const article = new Article({
@@ -32,7 +32,7 @@ exports.post_test_route = (req, res, next) => {
 
 // @route GET /articles
 // @desc return all published articles
-// @acces public
+// @access public
 exports.get_articles = async (req, res, next) => {
   let payload;
   try {
@@ -46,9 +46,22 @@ exports.get_articles = async (req, res, next) => {
   }
 };
 
+// @route GET /article/:id
+// @desc return a specific article
+// @access public
+exports.get_article_with_id = async (req, res, next) => {
+  let payload;
+  try {
+    payload = await Article.findOne({ _id: req.params.id });
+    res.status(200).json({ msg: 'success', payload });
+  } catch (error) {
+    res.status(400).json({ msg: 'failure', payload: 'Article not found' });
+  }
+};
+
 // @route POST /article
 // @desc post a new article
-// @acces private
+// @access private
 exports.post_article = (req, res, next) => {
   // mockdb.push(req.body);
   // const payload = mockdb;
@@ -72,7 +85,7 @@ exports.post_article = (req, res, next) => {
 
 // @route PUT /article/:id
 // @desc update article with objectid of :id
-// @acces private
+// @access private
 exports.put_article_with_id = (req, res, next) => {
   console.log(req.params.id);
   for (let i = 0; i < mockdb.length; i++) {
@@ -88,7 +101,7 @@ exports.put_article_with_id = (req, res, next) => {
 
 // @route DELETE /article/:id
 // @desc delete article with objectid of :id
-// @acces private
+// @access private
 exports.delete_article_with_id = (req, res, next) => {
   mockdb = mockdb.filter((article) => article.id !== req.params.id);
   const payload = mockdb;
@@ -100,7 +113,7 @@ exports.delete_article_with_id = (req, res, next) => {
 
 // @route GET /article/:id/comments
 // @desc get all comments from article with objectid :id
-// @acces public
+// @access public
 exports.get_article_with_id_comments = (req, res, next) => {
   const [article] = mockdb.filter((article) => article.id === req.params.id);
   const payload = article.comments ? article.comments : 'No comments found';
@@ -109,7 +122,7 @@ exports.get_article_with_id_comments = (req, res, next) => {
 
 // @route POST /article/:id/comment
 // @desc create a comment for article with objectid :id
-// @acces private
+// @access private
 exports.post_article_with_id_comment = (req, res, next) => {
   for (let i = 0; i < mockdb.length; i++) {
     if (mockdb[i].id === req.params.id) {
