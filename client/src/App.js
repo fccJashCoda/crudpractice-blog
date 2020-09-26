@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import Index from './layout/Index';
+import Nav from './layout/Nav';
 import ArticleCard from './components/ArticleCard';
 import Article from './components/Article';
 
@@ -10,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <>
+        <Nav />
         <Router>
           <Switch>
             <Route

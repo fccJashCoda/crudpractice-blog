@@ -18,7 +18,6 @@ const Index = () => {
 
   return (
     <>
-      <h3>Index</h3>
       {articles.map((article) => (
         <>
           <Link

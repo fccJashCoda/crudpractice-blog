@@ -53,7 +53,7 @@ exports.get_article_with_id = async (req, res, next) => {
   let payload;
   try {
     payload = await Article.findOne({ _id: req.params.id });
-    res.status(200).json({ msg: 'success', payload });
+    setTimeout(() => res.status(200).json({ msg: 'success', payload }), 2000);
   } catch (error) {
     res.status(400).json({ msg: 'failure', payload: 'Article not found' });
   }

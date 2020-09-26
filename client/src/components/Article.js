@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import Axios from 'axios';
 
+import Spinner from './Spinner';
+
 const API = 'http://localhost:5000/blog/article/';
 const API_KEY = '?key=123';
 
@@ -16,8 +18,6 @@ const Article = (props) => {
       console.log('no article found');
       const foo = async () => {
         const data = await Axios.get(fetch);
-        console.log('data', data);
-        console.log('typeof data', typeof data);
         setArticle(data);
         setLoaded(true);
       };
@@ -25,12 +25,11 @@ const Article = (props) => {
     }
   }, []);
 
-  console.log(article);
   return (
     <>
       <div className="card">
         {!loaded ? (
-          <h1>Paladin</h1>
+          <Spinner />
         ) : (
           <>
             <h3>{article.data.payload.title}</h3>
